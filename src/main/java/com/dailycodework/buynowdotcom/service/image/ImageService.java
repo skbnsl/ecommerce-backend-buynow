@@ -7,8 +7,6 @@ import com.dailycodework.buynowdotcom.repository.ImageRepository;
 import com.dailycodework.buynowdotcom.service.product.IProductService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.processing.SQL;
-import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -86,4 +84,6 @@ public class ImageService implements IImageService{
         }
         return savedImages;
     }
+
+
 }
