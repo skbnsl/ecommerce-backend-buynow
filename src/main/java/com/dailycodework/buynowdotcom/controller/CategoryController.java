@@ -54,10 +54,10 @@ public class CategoryController {
     }
 
     @DeleteMapping("/category/{categoryId}/category")
-    public ResponseEntity<?> deleteCategory(@PathVariable Long categoryId){
+    public ResponseEntity<ApiResponse> deleteCategory(@PathVariable Long categoryId){
         try {
             categoryService.deleteCategory(categoryId);
-            return ResponseEntity.ok("Deleted SuccessFully!!");
+            return ResponseEntity.ok(new ApiResponse("Deleted SuccessFully!!",null));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status
                     (NOT_FOUND).body(new ApiResponse("Error: ",e.getMessage()));
@@ -77,7 +77,7 @@ public class CategoryController {
 
 
     @PutMapping("/category/{id}/category")
-    public ResponseEntity<ApiResponse> getCategoryById(Category category, @PathVariable("id") Long categoryId){
+    public ResponseEntity<ApiResponse> updateCategory(@RequestBody  Category category, @PathVariable("id") Long categoryId){
         try {
             Category theCategory = categoryService.updateCategory(category, categoryId);
             return ResponseEntity.ok(new ApiResponse("success",theCategory));
