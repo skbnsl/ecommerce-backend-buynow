@@ -19,7 +19,8 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("${api.prefix}/images")
+//@RequestMapping("${api.prefix}/images")
+@RequestMapping("/api/v1/images")
 public class ImageController {
     private final IImageService iImageService;
 
@@ -32,7 +33,7 @@ public class ImageController {
             return ResponseEntity.ok(new ApiResponse("Images Uploaded Successfully!!", imageDto));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse("upload error",e.getMessage()));
+                    .body(new ApiResponse("upload Image error",e.getMessage()));
         }
     }
 
@@ -41,7 +42,31 @@ public class ImageController {
         Image image = iImageService.getImageById(imageId);
         ByteArrayResource resource = new ByteArrayResource(image.getImage().getBytes(1, (int)image.getImage().length()));
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(image.getFileType()))
-                .header(HttpHeaders.CONTENT_DISPOSITION,"attchment; filename\"" + image.getFileName() +"\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename\"" + image.getFileName() +"\"")
                 .body(resource);
     }
+
+    @PutMapping("/update")
+    public ResponseEntity<ApiResponse> updateImage(@RequestParam("file") MultipartFile file,
+                                                   @RequestParam("productId") Long imageId){
+        try {
+            iImageService.updateImage(file,imageId);
+            return ResponseEntity.ok(new ApiResponse("Image Updated Successfully!!", null));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse("update Image error",e.getMessage()));
+        }
+    }
+
+    @DeleteMapping("/delete/{imageId}")
+    public ResponseEntity<ApiResponse> deleteImage(@PathVariable Long imageId){
+        try {
+            iImageService.deleteImageById(imageId);
+            return ResponseEntity.ok(new ApiResponse("Image Deleted Successfully!!", null));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse("Delete Image error",e.getMessage()));
+        }
+    }
+
 }
