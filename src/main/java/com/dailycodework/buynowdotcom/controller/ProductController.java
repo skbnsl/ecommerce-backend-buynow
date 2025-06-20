@@ -43,14 +43,11 @@ public class ProductController {
 
     @PostMapping("/add")
     public ResponseEntity<ApiResponse> addProduct(@RequestBody AddProductRequest productRequest){
-        try{
+
             Product product = productService.addProduct(productRequest);
             ProductDto productDto = productService.convertToDto(product);
-            return ResponseEntity.ok(new ApiResponse("add Product!",productDto));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(new ApiResponse("error in add product",e.getMessage()));
-        }
+            return ResponseEntity.ok(new ApiResponse("add Product!", productDto));
+
     }
 
     @PutMapping("/product/{id}/update")
