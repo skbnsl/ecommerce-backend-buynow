@@ -100,7 +100,7 @@ public class ProductController {
         return ResponseEntity.ok(new ApiResponse("Found",convertedProducts));
     }
 
-    @GetMapping("/products//by/name")
+    @GetMapping("/products/by/name")
     public ResponseEntity<ApiResponse> getProductsByName(@RequestParam String name){
         List<Product> products = productService.getProductsByName(name);
         List<ProductDto> convertedProducts = productService.getConvertedProducts(products);
