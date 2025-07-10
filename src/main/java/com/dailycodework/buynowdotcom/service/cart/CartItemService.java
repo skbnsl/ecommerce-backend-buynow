@@ -23,6 +23,7 @@ public class CartItemService implements ICartItemService{
 
     @Override
     public void addItemToCart(Long cartId, Long productId, int quantity) {
+
         Cart cart = cartService.getCart(cartId);
         Product product = productService.getProductById(productId);
         CartItem cartItem = cart.getItems()
