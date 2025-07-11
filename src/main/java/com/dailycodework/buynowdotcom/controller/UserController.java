@@ -1,5 +1,6 @@
 package com.dailycodework.buynowdotcom.controller;
 
+import com.dailycodework.buynowdotcom.dtos.UserDto;
 import com.dailycodework.buynowdotcom.model.User;
 import com.dailycodework.buynowdotcom.request.CreateUserRequest;
 import com.dailycodework.buynowdotcom.request.UserUpdateRequest;
@@ -17,19 +18,19 @@ public class UserController {
 
     @GetMapping("/user/{userId}/user")
     public ResponseEntity<ApiResponse> getUserById(@PathVariable Long userId){
-        User user = userService.getUserById(userId);
+        UserDto user = userService.getUserById(userId);
         return ResponseEntity.ok(new ApiResponse("Found!",user));
     }
 
     @PostMapping("/add")
     public ResponseEntity<ApiResponse> createUser(@RequestBody CreateUserRequest request){
-        User user = userService.createUser(request);
+        UserDto user = userService.createUser(request);
         return ResponseEntity.ok(new ApiResponse("User Created: ",user));
     }
 
     @PutMapping("/{userId}/update")
     public ResponseEntity<ApiResponse> createUser(@RequestBody UserUpdateRequest request, @PathVariable Long userId){
-        User user = userService.updateUser(request,userId);
+        UserDto user = userService.updateUser(request,userId);
         return ResponseEntity.ok(new ApiResponse("User Updated: ",user));
     }
 
