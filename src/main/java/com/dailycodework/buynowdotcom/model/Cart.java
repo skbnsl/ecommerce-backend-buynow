@@ -10,6 +10,8 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,6 +25,7 @@ public class Cart {
 
     @OneToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -41,7 +44,13 @@ public class Cart {
     }
 
     private void updateTotalAmount() {
-
+        this.totalAmount = items.stream().map(item -> {
+            BigDecimal unitPrice = item.getUnitPrice();
+            if (unitPrice == null) {
+                return  BigDecimal.ZERO;
+            }
+            return unitPrice.multiply(BigDecimal.valueOf(item.getQuantity()));
+        }).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public void clearCart() {

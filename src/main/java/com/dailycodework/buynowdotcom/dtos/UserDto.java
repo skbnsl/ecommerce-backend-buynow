@@ -10,4 +10,5 @@ public class UserDto {
     private String lastName;
     private String email;
     private String password; // Optional: you might want to exclude this for security
+    private String phone;
 }

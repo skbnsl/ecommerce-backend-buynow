@@ -35,6 +35,7 @@ public class UserService implements IUserService {
                         user.setLastName(req.getLastName());
                         user.setEmail(req.getEmail());
                         user.setPassword(req.getPassword());
+                        user.setPhone(req.getPhone());
                         return userRepository.save(user);
                 }).orElseThrow(()->new EntityExistsException("user "+ request.getEmail() +" already exist!"));
         return convertToDto(savedUser);

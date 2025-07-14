@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("${api.prefix}/cartItems")
+//@RequestMapping("${api.prefix}/cartItems")
+@RequestMapping("/api/v1/cartItems")
 public class CartItemController {
 
     private final ICartItemService cartItemService;

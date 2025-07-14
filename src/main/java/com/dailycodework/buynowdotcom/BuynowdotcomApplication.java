@@ -16,12 +16,12 @@ public class BuynowdotcomApplication {
 		SpringApplication.run(BuynowdotcomApplication.class, args);
 	}
 
-	 @Bean
-    public CommandLineRunner demo(MessageService messageService) {
-        return args -> {
-			//MessageService messageService = new MessageService();
-            messageService.sendSMS(); // now Spring has injected values
-        };
-    }
+//	 @Bean
+//    public CommandLineRunner demo(MessageService messageService) {
+//        return args -> {
+//			//MessageService messageService = new MessageService();
+//            messageService.sendSMS(); // now Spring has injected values
+//        };
+//    }
 
 }

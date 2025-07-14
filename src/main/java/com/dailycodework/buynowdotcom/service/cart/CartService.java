@@ -7,6 +7,7 @@ import com.dailycodework.buynowdotcom.repository.CartRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -32,6 +33,7 @@ public class CartService implements ICartService{
         return cartRepository.findByUserId(userId);
     }
 
+    @Transactional
     @Override
     public void clearCart(Long cartId) {
         Cart cart = getCart(cartId);
