@@ -1,5 +1,6 @@
 package com.dailycodework.buynowdotcom.controller;
 
+import com.dailycodework.buynowdotcom.dtos.OrderDto;
 import com.dailycodework.buynowdotcom.model.Order;
 import com.dailycodework.buynowdotcom.response.ApiResponse;
 import com.dailycodework.buynowdotcom.service.Order.IOrderService;
@@ -19,13 +20,13 @@ public class OrderController {
 
     @PostMapping("/user/order")
     public ResponseEntity<ApiResponse> placeOrder(@RequestParam Long userId){
-        Order order = orderService.placeOrder(userId);
+        OrderDto order = orderService.placeOrder(userId);
         return ResponseEntity.ok(new ApiResponse("order place successfully!",order));
     }
 
     @GetMapping("/user/{userId}/orders")
     public ResponseEntity<ApiResponse> getUserOrders(@PathVariable Long userId){
-        List<Order> orderList = orderService.getUserOrders(userId);
+        List<OrderDto> orderList = orderService.getUserOrders(userId);
         return ResponseEntity.ok(new ApiResponse("success",orderList));
     }
 

@@ -1,5 +1,6 @@
 package com.dailycodework.buynowdotcom.service.Order;
 
+import com.dailycodework.buynowdotcom.dtos.OrderDto;
 import com.dailycodework.buynowdotcom.enums.OrderStatus;
 import com.dailycodework.buynowdotcom.model.Cart;
 import com.dailycodework.buynowdotcom.model.Order;
@@ -9,6 +10,7 @@ import com.dailycodework.buynowdotcom.repository.OrderRepository;
 import com.dailycodework.buynowdotcom.repository.ProductRepository;
 import com.dailycodework.buynowdotcom.service.cart.ICartService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -23,9 +25,10 @@ public class OrderService implements IOrderService{
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final ICartService cartService;
+    private final ModelMapper modelMapper;
 
     @Override
-    public Order placeOrder(Long userId) {
+    public OrderDto placeOrder(Long userId) {
         Cart cart = cartService.getCartByUserId(userId);
         Order order = createOrder(cart);
         List<OrderItem> orderItemList = createOrderItems(order,cart);
@@ -33,7 +36,7 @@ public class OrderService implements IOrderService{
         order.setTotalAmount(calculateTotalAmount(orderItemList));
         Order savedOrder = orderRepository.save(order);
         cartService.clearCart(cart.getId());
-        return savedOrder;
+        return convertToDto(savedOrder);
     }
 
     private Order createOrder(Cart cart){
@@ -61,8 +64,13 @@ public class OrderService implements IOrderService{
     }
 
     @Override
-    public List<Order> getUserOrders(Long userId) {
-        return orderRepository.findByUserId(userId);
+    public List<OrderDto> getUserOrders(Long userId) {
+        List<Order> orders = orderRepository.findByUserId(userId);
+        return orders.stream().map(this::convertToDto).toList();
+    }
+
+    public OrderDto convertToDto(Order order){
+        return modelMapper.map(order,OrderDto.class);
     }
 
 }
