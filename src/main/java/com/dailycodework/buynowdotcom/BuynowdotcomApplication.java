@@ -1,6 +1,6 @@
 package com.dailycodework.buynowdotcom;
 
-import com.dailycodework.buynowdotcom.service.message.MessageService;
+//import com.dailycodework.buynowdotcom.service.message.MessageService;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
