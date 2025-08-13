@@ -3,11 +3,15 @@ package com.dailycodework.buynowdotcom.utils;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
+@Component
 public class CookieUtils {
 
+    @Value("${app.useSecureCookie}")
     private boolean useSecureCookie;
 
     public void addRefreshTokenCookie(HttpServletResponse response,
@@ -61,5 +65,4 @@ public class CookieUtils {
             }
         }
     }
-
 }
