@@ -25,12 +25,13 @@ public class CartItemController {
 
     @PostMapping("/item/add/{userId}")
     public ResponseEntity<ApiResponse> addItemToCart(
-                                                     @PathVariable Long userId,
+                                                    // @PathVariable Long userId, //we will take userId from serurity context
                                                      @RequestParam Long productId,
-                                                     @RequestParam int quantity ){
+                                                     @RequestParam int quantity){
 
-        UserDto userDto = userService.getUserById(userId);
-        User user = modelMapper.map(userDto, User.class);
+        User user = userService.getAuthenticatedUser();
+        /*UserDto userDto = userService.getUserById(userId);
+        User user = modelMapper.map(userDto, User.class);*/
         Cart cart = cartService.initializeNewCartForUser(user);
         cartItemService.addItemToCart(cart.getId(),productId,quantity);
         return ResponseEntity.ok(new ApiResponse("item added successfully", null));

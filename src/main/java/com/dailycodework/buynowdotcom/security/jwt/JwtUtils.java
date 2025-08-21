@@ -41,7 +41,8 @@ public class JwtUtils {
                 .claim("roles",roles)
                 .setIssuedAt(new Date())
                 .setExpiration(calculateExpirationDate(expirationTime))
-                        .signWith(key(), SignatureAlgorithm.ES256).compact();
+                        //.signWith(key(), SignatureAlgorithm.ES256).compact();
+                .signWith(key(), SignatureAlgorithm.HS256).compact();
     }
 
     public String generateRefreshToken(String email){
@@ -49,7 +50,8 @@ public class JwtUtils {
                 .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(calculateExpirationDate(refreshExpirationTime))
-                .signWith(key(), SignatureAlgorithm.ES256).compact();
+                //.signWith(key(), SignatureAlgorithm.ES256).compact();
+                .signWith(key(), SignatureAlgorithm.HS256).compact();
     }
 
     private Key key(){
