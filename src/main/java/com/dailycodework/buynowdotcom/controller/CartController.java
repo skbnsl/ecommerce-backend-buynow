@@ -5,6 +5,8 @@ import com.dailycodework.buynowdotcom.model.User;
 import com.dailycodework.buynowdotcom.response.ApiResponse;
 import com.dailycodework.buynowdotcom.service.cart.ICartService;
 import lombok.RequiredArgsConstructor;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class CartController {
 
     private final ICartService cartService;
+    private final ModelMapper mapper;
 
     @GetMapping("/user/{userId}/cart")
     public ResponseEntity<ApiResponse> getUserCart(@PathVariable Long userId){

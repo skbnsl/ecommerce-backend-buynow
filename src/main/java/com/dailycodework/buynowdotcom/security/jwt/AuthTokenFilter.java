@@ -1,7 +1,8 @@
 package com.dailycodework.buynowdotcom.security.jwt;
 
-import com.dailycodework.buynowdotcom.security.user.ShopUserDetails;
+import com.dailycodework.buynowdotcom.response.ErrorResponse;
 import com.dailycodework.buynowdotcom.security.user.ShopUserDetailsService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,9 +43,21 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         }catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            //throw new RuntimeException(e.getMessage());
+            sendErrorResponse(response);
+            return;
         }
         filterChain.doFilter(request,response);
+    }
+
+    private void sendErrorResponse(HttpServletResponse response)
+                                                                        throws IOException {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("application/json");
+        ErrorResponse errorResponse = new ErrorResponse("Invalid access Token,please login and try again!");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonResponse = objectMapper.writeValueAsString(errorResponse);
+        response.getWriter().write(jsonResponse);
     }
 
     public String parseJwt(HttpServletRequest request){
